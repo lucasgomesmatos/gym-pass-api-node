@@ -1,5 +1,5 @@
-import { app } from './app'
-import { environment } from './env'
+import { app } from '@/app'
+import { environment } from '@/env'
 
 app
   .listen({
