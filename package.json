@@ -1,0 +1,30 @@
+{
+  "name": "gympass-api-node",
+  "version": "1.0.0",
+  "description": "gym-pass-api-node",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch --env-file .env src/server.ts",
+    "start": "node build/server.js",
+    "build": "tsup src --out-dir build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rocketseat/eslint-config": "2.1.0",
+    "@types/node": "20.11.5",
+    "eslint": "8.56.0",
+    "tsup": "8.0.1",
+    "tsx": "4.7.0",
+    "typescript": "5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "16.3.2",
+    "fastify": "4.25.2",
+    "zod": "3.22.4"
+  }
+}
