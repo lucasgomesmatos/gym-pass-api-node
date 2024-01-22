@@ -9,7 +9,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
   const registerUserBody = z.object({
     name: z.string(),
     email: z.string().email(),
-    password: z.string().min(7),
+    password: z.string().min(6),
   })
 
   const { name, email, password } = registerUserBody.parse(request.body)
@@ -29,10 +29,8 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       return reply.status(409).send({
         message: error.message
       })
-
-
     }
-    return reply.status(500).send() // TODO: Create a generic error handler
+    throw error
 
   }
 
