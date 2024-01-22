@@ -9,7 +9,11 @@
   "scripts": {
     "dev": "tsx watch --env-file .env src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build"
+    "build": "tsup src --out-dir build",
+    "teste": "vitest run",
+    "teste:watch": "vitest",
+    "teste:coverage": "vitest run --coverage",
+    "lint": "eslint --ext .ts src --fix"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +22,15 @@
     "@rocketseat/eslint-config": "2.1.0",
     "@types/bcryptjs": "2.4.6",
     "@types/node": "20.11.5",
+    "@vitest/coverage-v8": "1.2.1",
     "eslint": "8.56.0",
     "prisma": "5.8.1",
+    "supertest": "6.3.4",
     "tsup": "8.0.1",
     "tsx": "4.7.0",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vite-tsconfig-paths": "4.3.1",
+    "vitest": "1.2.1"
   },
   "dependencies": {
     "@prisma/client": "5.8.1",
