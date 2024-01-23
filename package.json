@@ -13,6 +13,7 @@
     "teste": "vitest run",
     "teste:watch": "vitest",
     "teste:coverage": "vitest run --coverage",
+    "teste:ui": "vitest --ui",
     "lint": "eslint --ext .ts src --fix"
   },
   "keywords": [],

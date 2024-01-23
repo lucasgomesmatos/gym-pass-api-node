@@ -2,15 +2,19 @@ import { InMemoryRepositories } from '@/repositories/in-memory/in-memory-users-r
 import { UserAlreadyExistsError } from '@/use-cases/erros/user-already-exists-error';
 import { RegisterUserUseCase } from '@/use-cases/register-user';
 import { compare } from 'bcryptjs';
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
+
+let usersRepository: InMemoryRepositories;
+let registerUserUseCase: RegisterUserUseCase;
 
 describe("register Use Case", () => {
 
+  beforeEach(() => {
+    usersRepository = new InMemoryRepositories();
+    registerUserUseCase = new RegisterUserUseCase(usersRepository);
+  })
+
   it("should be able to register", async () => {
-
-    const usersRepository = new InMemoryRepositories();
-    const registerUserUseCase = new RegisterUserUseCase(usersRepository);
-
     const { user } = await registerUserUseCase.execute({
       name: "John Doe",
       email: "johndoe4@example.com",
@@ -23,10 +27,6 @@ describe("register Use Case", () => {
     expect(user).toHaveProperty("name");
   })
   it("should hash user password upon registration", async () => {
-
-    const usersRepository = new InMemoryRepositories();
-    const registerUserUseCase = new RegisterUserUseCase(usersRepository);
-
     const { user } = await registerUserUseCase.execute({
       name: "John Doe",
       email: "johndoe4@example.com",
@@ -34,23 +34,16 @@ describe("register Use Case", () => {
     })
 
     const isPasswordCorrectlyHashed = await compare("1234561234", user.password_hash);
-
     expect(isPasswordCorrectlyHashed).toBe(true);
   })
 
   it("should not be able to register with same email twice", async () => {
-
-    const usersRepository = new InMemoryRepositories();
-    const registerUserUseCase = new RegisterUserUseCase(usersRepository);
-
     const email = "johndoe4@example.com";
-
     await registerUserUseCase.execute({
       name: "John Doe",
       email,
       password: "1234561234",
     })
-
 
     await expect(() => registerUserUseCase.execute({
       name: "John Doe",
