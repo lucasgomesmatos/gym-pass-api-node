@@ -1,4 +1,4 @@
-import { InMemoryRepositories } from '@/repositories/in-memory/in-memory-users-repository';
+import { InMemoryUsersRepositories } from '@/repositories/in-memory/in-memory-users-repository';
 import { AuthenticateUseCase } from '@/use-cases/authenticate';
 import { InvalidCredentialsError } from '@/use-cases/erros/invalid-credentials-error';
 import { hash } from 'bcryptjs';
@@ -6,13 +6,13 @@ import { hash } from 'bcryptjs';
 import { beforeEach, describe, expect, it } from "vitest";
 
 
-let usersRepository: InMemoryRepositories;
+let usersRepository: InMemoryUsersRepositories;
 let authenticateUseCase: AuthenticateUseCase;
 
 describe("Authenticate Use Case", () => {
 
   beforeEach(() => {
-    usersRepository = new InMemoryRepositories();
+    usersRepository = new InMemoryUsersRepositories();
     authenticateUseCase = new AuthenticateUseCase(usersRepository);
   })
 
@@ -53,7 +53,5 @@ describe("Authenticate Use Case", () => {
       password: "123123",
     })).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
-
-
 
 })
