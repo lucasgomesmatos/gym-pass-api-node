@@ -2,7 +2,7 @@ import { Prisma, User } from "@prisma/client";
 import { randomUUID } from "node:crypto";
 import { UsersRepository } from "../users-repository";
 
-export class InMemoryUsersRepositories implements UsersRepository {
+export class InMemoryUsersRepository implements UsersRepository {
   async findById(id: string) {
     const user = this.users.find(user => user.id === id);
 

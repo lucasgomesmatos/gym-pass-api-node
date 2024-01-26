@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { randomUUID } from "node:crypto";
 import { CheckInsRepository } from "../check-ins-repository";
 
-export class InMemoryCheckInsRepositories implements CheckInsRepository {
+export class InMemoryCheckInsRepository implements CheckInsRepository {
 
   private checkIns: CheckIn[] = [];
 

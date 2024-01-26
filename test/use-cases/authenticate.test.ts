@@ -1,4 +1,4 @@
-import { InMemoryUsersRepositories } from '@/repositories/in-memory/in-memory-users-repository';
+import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { AuthenticateUseCase } from '@/use-cases/authenticate';
 import { InvalidCredentialsError } from '@/use-cases/erros/invalid-credentials-error';
 import { hash } from 'bcryptjs';
@@ -6,13 +6,13 @@ import { hash } from 'bcryptjs';
 import { beforeEach, describe, expect, it } from "vitest";
 
 
-let usersRepository: InMemoryUsersRepositories;
+let usersRepository: InMemoryUsersRepository;
 let authenticateUseCase: AuthenticateUseCase;
 
 describe("Authenticate Use Case", () => {
 
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepositories();
+    usersRepository = new InMemoryUsersRepository();
     authenticateUseCase = new AuthenticateUseCase(usersRepository);
   })
 
