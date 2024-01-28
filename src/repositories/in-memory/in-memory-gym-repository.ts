@@ -30,4 +30,11 @@ export class InMemoryGymsRepository implements GymsRepository {
     this.gyms.push(gym);
     return gym;
   }
+
+  async searchMany(name: string, page: number) {
+    const gyms = this.gyms
+      .filter((gym) => gym.name.toLowerCase().includes(name.toLowerCase())).slice((page - 1) * 20, page * 20);
+
+    return gyms;
+  }
 }
