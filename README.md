@@ -10,7 +10,7 @@
 - [x] Deve ser possível o usuário buscar academias próximas (até 10km);
 - [x] Deve ser possível o usuário buscar academias por nome;
 - [x] Deve ser possível o usuário realizar check-in em uma academia;
-- [ ] Deve ser possível validar o check-in do usuário;
+- [x] Deve ser possível validar o check-in do usuário;
 - [x] Deve ser possível cadastrar uma academia;
 
 ### RNs (Regras de Negócio)
