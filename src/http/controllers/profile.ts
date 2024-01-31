@@ -1,32 +1,12 @@
+import { makeGetUserProfileUseCase } from '@/use-cases/factories/make-get-user-profile-use-case';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 export async function profile(request: FastifyRequest, reply: FastifyReply) {
-  // const registerUserBodySchema = z.object({
-  //   name: z.string(),
-  //   email: z.string().email(),
-  //   password: z.string().min(6),
-  // })
+  const getUserProfile = makeGetUserProfileUseCase();
 
-  // const { name, email, password } = registerUserBodySchema.parse(request.body)
+  const { user } = await getUserProfile.execute({
+    userId: request.user.sub,
+  });
 
-  // try {
-  //   const registerUserUseCase = makeRegisterUseCase()
-
-  //   await registerUserUseCase.execute({
-  //     name,
-  //     email,
-  //     password,
-  //   })
-  // } catch (error) {
-
-  //   if (error instanceof UserAlreadyExistsError) {
-  //     return reply.status(409).send({
-  //       message: error.message
-  //     })
-  //   }
-  //   throw error
-
-  // }
-
-  return reply.status(200).send();
+  return reply.status(200).send({ ...user, password: undefined });
 }

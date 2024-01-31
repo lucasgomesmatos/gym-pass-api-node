@@ -3,32 +3,43 @@ import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 
-
-export async function authenticate(request: FastifyRequest, reply: FastifyReply) {
+export async function authenticate(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const authenticateBodySchema = z.object({
     email: z.string().email(),
     password: z.string().min(6),
-  })
+  });
 
-  const { email, password } = authenticateBodySchema.parse(request.body)
+  const { email, password } = authenticateBodySchema.parse(request.body);
 
   try {
-    const authenticateUseCase = makeAuthenticateUseCase()
+    const authenticateUseCase = makeAuthenticateUseCase();
 
-    await authenticateUseCase.execute({
+    const { user } = await authenticateUseCase.execute({
       email,
       password,
-    })
-  } catch (error) {
+    });
 
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    );
+
+    return reply.status(200).send({
+      token,
+    });
+  } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       return reply.status(401).send({
-        message: error.message
-      })
+        message: error.message,
+      });
     }
-    throw error
-
+    throw error;
   }
-
-  return reply.status(200).send()
 }

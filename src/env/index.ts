@@ -1,10 +1,10 @@
-import { config } from 'dotenv'
-import { z } from 'zod'
+import { config } from 'dotenv';
+import { z } from 'zod';
 
 if (process.env.NODE_ENV === 'test') {
-  config({ path: '.env.test', override: true })
+  config({ path: '.env.test', override: true });
 } else {
-  config()
+  config();
 }
 
 const envSchema = z.object({
@@ -12,13 +12,14 @@ const envSchema = z.object({
     .enum(['development', 'test', 'production'])
     .default('development'),
   PORT: z.coerce.number().default(3000),
-})
+  JWT_SECRET: z.string(),
+});
 
-const env = envSchema.safeParse(process.env)
+const env = envSchema.safeParse(process.env);
 
 if (!env.success) {
-  console.error('Invalid environment variables', env.error.format())
-  throw new Error('Invalid environment variables.')
+  console.error('Invalid environment variables', env.error.format());
+  throw new Error('Invalid environment variables.');
 }
 
-export const environment = env.data
+export const environment = env.data;
