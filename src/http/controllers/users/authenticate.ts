@@ -24,9 +24,11 @@ export async function authenticate(
 
     const token = await reply.jwtSign(
       {},
+
       {
         sign: {
           sub: user.id,
+          expiresIn: '1h',
         },
       },
     );
