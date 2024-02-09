@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { app } from '../../src/app';
 import { createAndAuthenticatedUser } from './utils/create-and-authenticate-user';
 
-describe('Create Check-In e2e', () => {
+describe('Check-In History e2e', () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -13,7 +13,7 @@ describe('Create Check-In e2e', () => {
     await app.close();
   });
 
-  it('should be able to create a check-in', async () => {
+  it('should be able to list the history check-in', async () => {
     const { token } = await createAndAuthenticatedUser(app);
 
     const gym = await prisma.gym.create({
@@ -24,13 +24,28 @@ describe('Create Check-In e2e', () => {
       }
     })
 
+    const user = await prisma.user.findFirstOrThrow()
+
+    const checkIns = await prisma.checkIn.createMany({
+      data: [
+        {
+          user_id: user.id,
+          gym_id: gym.id,
+
+        },
+        {
+          user_id: user.id,
+          gym_id: gym.id,
+        }
+      ]
+    })
+
     const response = await request(app.server)
-      .post(`/check-ins/${gym.id}/check-ins`)
+      .get(`/check-ins/history`)
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        latitude: -23.5505199,
-        longitude: -46.6333094,
-      });
-    expect(response.status).toBe(201);
+      .send();
+
+    expect(response.status).toBe(200);
+    expect(response.body.checkIns.length).toBe(2);
   });
 });

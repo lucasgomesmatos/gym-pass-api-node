@@ -24,13 +24,21 @@ describe('Create Check-In e2e', () => {
       }
     })
 
+    const user = await prisma.user.findFirstOrThrow()
+
+
+    let checkIn = await prisma.checkIn.create({
+      data: {
+        user_id: user.id,
+        gym_id: gym.id,
+      }
+    })
+
     const response = await request(app.server)
-      .post(`/check-ins/${gym.id}/check-ins`)
+      .patch(`/check-ins/${checkIn.id}/validate`)
       .set('Authorization', `Bearer ${token}`)
-      .send({
-        latitude: -23.5505199,
-        longitude: -46.6333094,
-      });
-    expect(response.status).toBe(201);
+      .send();
+    expect(response.status).toBe(204);
+
   });
 });
