@@ -14,31 +14,29 @@ describe('Create Check-In e2e', () => {
   });
 
   it('should be able to create a check-in', async () => {
-    const { token } = await createAndAuthenticatedUser(app);
+    const { token } = await createAndAuthenticatedUser(app, true);
 
     const gym = await prisma.gym.create({
       data: {
         name: 'Academia do JavaScript',
         latitude: -23.5505199,
         longitude: -46.6333094,
-      }
-    })
+      },
+    });
 
-    const user = await prisma.user.findFirstOrThrow()
-
+    const user = await prisma.user.findFirstOrThrow();
 
     let checkIn = await prisma.checkIn.create({
       data: {
         user_id: user.id,
         gym_id: gym.id,
-      }
-    })
+      },
+    });
 
     const response = await request(app.server)
       .patch(`/check-ins/${checkIn.id}/validate`)
       .set('Authorization', `Bearer ${token}`)
       .send();
     expect(response.status).toBe(204);
-
   });
 });

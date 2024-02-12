@@ -13,7 +13,7 @@ describe('Search Gyms e2e', () => {
   });
 
   it('should be able to search a gym', async () => {
-    const { token } = await createAndAuthenticatedUser(app);
+    const { token } = await createAndAuthenticatedUser(app, true);
 
     await request(app.server)
       .post('/gyms')
@@ -24,7 +24,7 @@ describe('Search Gyms e2e', () => {
         phone: '11999999999',
         latitude: -23.5505199,
         longitude: -46.6333094,
-      })
+      });
 
     await request(app.server)
       .post('/gyms')
@@ -35,7 +35,7 @@ describe('Search Gyms e2e', () => {
         phone: '11999999999',
         latitude: -23.5505199,
         longitude: -46.6333094,
-      })
+      });
 
     const response = await request(app.server)
       .get('/gyms/search')
@@ -48,6 +48,6 @@ describe('Search Gyms e2e', () => {
     expect(response.body.gyms).toHaveLength(1);
     expect(response.body.gyms).toEqual([
       expect.objectContaining({ name: 'Academia do JavaScript' }),
-    ])
+    ]);
   });
 });
